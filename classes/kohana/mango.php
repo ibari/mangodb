@@ -1,14 +1,5 @@
 <?php
 
-/*
- * ----------------------------------------------------------------------------
- * "THE BEER-WARE LICENSE" (Revision 42):
- * Wouter Wiegmans wrote this file. As long as you retain this notice you
- * can do whatever you want with this stuff. If we meet some day, and you think
- * this stuff is worth it, you can buy me a beer in return - Wouter Wiegmans
- * ----------------------------------------------------------------------------
- */
-
 abstract class Kohana_Mango implements Mango_Interface {
 
 	/**
@@ -254,6 +245,16 @@ abstract class Kohana_Mango implements Mango_Interface {
 	}
 
 	/**
+	 * Return relation data
+	 *
+	 * @return  array  field data
+	 */
+	public function relations()
+	{
+		return $this->_relations;
+	}
+
+	/**
 	 * Return TRUE if field has been changed
 	 *
 	 * @param   string   field name
@@ -418,7 +419,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 						$limit    = 1;
 					break;
 					case 'has_many':
-						$criteria = array( ARR::get($relation, 'relation_name', $this->_model) . '_id' => $this->_id);
+						$criteria = array($this->_model . '_id' => $this->_id);
 						$limit    = FALSE;
 					break;
 					case 'has_and_belongs_to_many':
@@ -703,9 +704,9 @@ abstract class Kohana_Mango implements Mango_Interface {
 		{
 			if ( $this->__isset($field_name))
 			{
-				if ( Arr::get($field_data,'local') === TRUE)
+				if ( $clean && Arr::get($field_data,'local') === TRUE)
 				{
-					// local fields are not included in as_array array (not stored in db, not included in JSON objects)
+					// local fields are not stored in database
 					continue;
 				}
 
