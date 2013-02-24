@@ -371,8 +371,8 @@ abstract class Kohana_Mango implements Mango_Interface {
 			switch ( $field['type'])
 			{
 				case 'enum':
-					$value = isset($value) && isset($field['values'][$value]) 
-						? $field['values'][$value] 
+					$value = isset($value) && in_array($value, $field['values']) 
+						? $value
 						: NULL;
 				break;
 				case 'set':
@@ -1315,6 +1315,8 @@ abstract class Kohana_Mango implements Mango_Interface {
 					}
 				break;
 				case 'enum':
+					$value = in_array($value, $field['values']) ? $value : NULL;
+					/*
 					if ( $clean)
 					{
 						$value = isset($field['values'][$value]) ? $value : NULL;
@@ -1323,6 +1325,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 					{
 						$value = ($key = array_search($value,$field['values'])) !== FALSE ? $key : NULL;
 					}
+					*/
 				break;
 				case 'int':
 					if ((float) $value > PHP_INT_MAX)
