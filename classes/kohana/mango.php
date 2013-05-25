@@ -255,6 +255,15 @@ abstract class Kohana_Mango implements Mango_Interface {
 	}
 
 	/**
+	 * Return the collection name
+	 *
+	 */
+	public function collection_name()
+	{
+		return $this->_collection;
+	}
+
+	/**
 	 * Return TRUE if field has been changed
 	 *
 	 * @param   string   field name
@@ -740,7 +749,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 
 		return count($array) || ! $clean
 			? $array
-			: (object) array();
+			: array();
 	}
 
 	/**
@@ -912,7 +921,8 @@ abstract class Kohana_Mango implements Mango_Interface {
 
 		if ( $limit === 1 && $sort === NULL && $skip === NULL)
 		{
-			$values = $this->db()->find_one($this->_collection,$criteria,$fields);
+			// prevent loading of a document without any search criteria
+			$values = (empty($criteria)) ? NULL : $this->db()->find_one($this->_collection,$criteria,$fields);
 
 			if ( $values === NULL)
 			{
