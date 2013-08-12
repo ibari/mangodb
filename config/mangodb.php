@@ -13,7 +13,7 @@ return array(
 
 		/**
 		 * Connection Setup
-		 * 
+		 *
 		 * See http://www.php.net/manual/en/mongo.construct.php for more information
 		 *
 		 * or just edit / uncomment the keys below to your requirements

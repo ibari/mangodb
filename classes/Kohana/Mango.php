@@ -18,7 +18,6 @@ abstract class Kohana_Mango implements Mango_Interface {
 	// Default maximum length of string fields, longer values are cut off.
 	// You can overload this on a per field basis by defining a 'max_size' value in the field definition.
 	const MAX_SIZE_STRING = 65536;
-	
 
 	/**
 	 * Load an Mango model.
@@ -67,7 +66,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 		if ( self::$_cti === NULL)
 		{
 			// load extension config
-			self::$_cti = Kohana::$config->load('mangoCTI');
+			self::$_cti = Kohana::$config->load('mangocti');
 		}
 
 		while ( isset(self::$_cti[$name]))
@@ -206,7 +205,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 	 */
 	public function __isset($name)
 	{
-		return isset($this->_fields[$name]) 
+		return isset($this->_fields[$name])
 			? (isset($this->_object[$name])  || isset($this->_clean[$name]))
 			: isset($this->_related[$name]);
 	}
@@ -380,7 +379,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			switch ( $field['type'])
 			{
 				case 'enum':
-					$value = isset($value) && in_array($value, $field['values']) 
+					$value = isset($value) && in_array($value, $field['values'])
 						? $value
 						: NULL;
 				break;
@@ -607,7 +606,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			{
 				if ( $relation['type'] === 'has_and_belongs_to_many')
 				{
-					$relation['model'] = isset($relation['model']) 
+					$relation['model'] = isset($relation['model'])
 						 ? $relation['model']
 						 : Inflector::singular($name);
 
@@ -1042,7 +1041,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 
 			$this->saved();
 		}
-		
+
 		return $this;
 	}
 
@@ -1587,7 +1586,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 	{
 		if ( isset($this->_relations[$relation]) && $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
 		{
-			// related HABTM 
+			// related HABTM
 			$field = $relation . '_ids';
 			$value = $model->_id;
 		}
@@ -1603,8 +1602,8 @@ abstract class Kohana_Mango implements Mango_Interface {
 				array(':model' => $this->_model, ':related' => $relation));
 		}
 
-		return isset($field) 
-			? ($this->__isset($field) ? $this->__get($field)->find($value) !== FALSE : FALSE) 
+		return isset($field)
+			? ($this->__isset($field) ? $this->__get($field)->find($value) !== FALSE : FALSE)
 			: FALSE;
 	}
 

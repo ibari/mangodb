@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 
 class Kohana_Mango_Validation_Exception extends Validation_Exception {
 

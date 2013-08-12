@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
 
 class Kohana_Mango_Iterator implements Iterator, Countable {
 
@@ -25,7 +25,7 @@ class Kohana_Mango_Iterator implements Iterator, Countable {
 
 		foreach ( $this as $document)
 		{
-			$array[] = $objects 
+			$array[] = $objects
 				? $document
 				: $document->as_array( FALSE );
 		}
