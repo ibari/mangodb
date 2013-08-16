@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 class Kohana_Mango_Validation extends Kohana_Validation {
 

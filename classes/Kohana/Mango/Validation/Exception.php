@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 class Kohana_Mango_Validation_Exception extends Validation_Exception {
 
@@ -19,4 +19,4 @@ class Kohana_Mango_Validation_Exception extends Validation_Exception {
 		parent::__construct($array, $message, $values, $code);
 	}
 
-} // End Mango_Validation_Exception
+}

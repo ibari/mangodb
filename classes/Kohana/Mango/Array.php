@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /*
  * Mango implementation of a Mongo Javascript Object.
@@ -38,11 +38,11 @@ class Kohana_Mango_Array extends Mango_ArrayObject {
 		$keys = array_merge( $keys, array_diff( array_keys($this->_changed) ,$keys) );
 
 		// Walk through array
-		
+
 		foreach($keys as $key)
 		{
-			$value = $this->offsetExists($key) 
-				? $this->offsetGet($key) 
+			$value = $this->offsetExists($key)
+				? $this->offsetGet($key)
 				: NULL;
 
 			if ( isset($this->_changed[$key]))
@@ -160,8 +160,8 @@ class Kohana_Mango_Array extends Mango_ArrayObject {
 
 		$array = parent::as_array( $clean );
 
-		return $clean && ! count($array) 
-			? (object) array() 
+		return $clean && ! count($array)
+			? (object) array()
 			: $array;
 	}
 

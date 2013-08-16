@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * ArrayObject base class used by both Mango_Set (corresponds to Javascript array) and Mango_Array (corresponds to Javascript object)
@@ -70,7 +70,7 @@ class Kohana_Mango_ArrayObject extends ArrayObject implements Mango_Interface {
 
 	/**
 	 * Loads a value into correct type
-   *
+	 *
 	 * @param   boolean Is data clean (from DB?)
 	 */
 	public function load_type($value, $clean = FALSE)
@@ -98,7 +98,7 @@ class Kohana_Mango_ArrayObject extends ArrayObject implements Mango_Interface {
 				}
 			break;
 			default:
-				$value = is_object($value) 
+				$value = is_object($value)
 					? $value
 					: Mango::factory($this->_type_hint, $value, $clean ? Mango::CLEAN : Mango::CHANGE);
 			break;
@@ -164,14 +164,14 @@ class Kohana_Mango_ArrayObject extends ArrayObject implements Mango_Interface {
 			{
 				case 'array':
 				case 'set':
-				case 'counter': 
+				case 'counter':
 					// counter also defaults to array, to support multidimensional counters
 					// (Mango_Array can act as a counter itself aswell, so leaving all options available)
 					$value = array();
 				break;
 				case NULL:
 					// implicit set is only possible when we know the array type.
-					throw new Mango_Exception('Set typehint to \'set\', \'array\', \'counter\' or model name (now: :typehint) to support implicit array creation', 
+					throw new Mango_Exception('Set typehint to \'set\', \'array\', \'counter\' or model name (now: :typehint) to support implicit array creation',
 						array(':typehint' => $this->_type_hint ? '\''.$this->_type_hint.'\'' : 'not set'));
 				break;
 				default:

@@ -25,8 +25,8 @@ Contributors
 * [Daniel Macedo](https://github.com/dm)
 * [Henry Simonen](https://github.com/henryfi)
 * [Kolo](https://github.com/koroboku)
-* [Sergey Yakovlev](https://github.com/henryfi)
-* [Wouter Wiegmans](https://github.com/Wouterrr/)
+* [Sergey Yakovlev](https://github.com/sergeyklay)
+* [Wouter Wiegmans](https://github.com/Wouterrr)
 
 
 License

@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 /*
  * Mango implementation of a Mongo Javascript Array.
@@ -100,7 +100,7 @@ class Kohana_Mango_Set extends Mango_ArrayObject {
 			break;
 		}
 
-		// normalize changed elements 
+		// normalize changed elements
 		foreach ( $elements as &$element)
 		{
 			if ( $element instanceof Mango_Interface)

@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 class Kohana_Mango_Iterator implements Iterator, Countable {
 
@@ -116,4 +116,4 @@ class Kohana_Mango_Iterator implements Iterator, Countable {
 		return $this->_cursor->valid();
 	}
 
-} // End ORM Iterator
+}

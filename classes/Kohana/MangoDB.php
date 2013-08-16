@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 class Kohana_MangoDB {
 
@@ -80,7 +80,14 @@ class Kohana_MangoDB {
 		}
 
 		// create Mongo object (but don't connect just yet)
-		$this->_connection = new MongoClient($server, array('connect' => FALSE) + $options);
+		if (class_exists('MongoClient'))
+		{
+			$this->_connection = new MongoClient($server, array('connect' => FALSE) + $options);
+		}
+		else
+		{
+			$this->_connection = new Mongo($server, array('connect' => FALSE) + $options);
+		}
 
 		// connect
 		if ( Arr::get($options, 'connect', TRUE))

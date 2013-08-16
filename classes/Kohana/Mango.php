@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct script access.');
 
 abstract class Kohana_Mango implements Mango_Interface {
 
@@ -46,7 +46,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 		// Create a new instance of the model by clone
 		$model = clone $models[$name];
 
-		if ( $values && $load_type !== Mango::EXTEND)
+		if ( $values AND $load_type !== Mango::EXTEND)
 		{
 			$model->values($values, $load_type === Mango::CLEAN);
 		}
@@ -73,7 +73,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 		{
 			$key = key(self::$_cti[$name]);
 
-			if ( isset($values[$key]) && isset(self::$_cti[$name][$key][$values[$key]]))
+			if ( isset($values[$key]) AND isset(self::$_cti[$name][$key][$values[$key]]))
 			{
 				// extend
 				$name = self::$_cti[$name][$key][$values[$key]];
@@ -379,7 +379,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			switch ( $field['type'])
 			{
 				case 'enum':
-					$value = isset($value) && in_array($value, $field['values'])
+					$value = isset($value) AND in_array($value, $field['values'])
 						? $value
 						: NULL;
 				break;
@@ -402,7 +402,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 				break;
 			}
 
-			if ( $value === NULL && isset($field['default']))
+			if ( $value === NULL AND isset($field['default']))
 			{
 				$value = $field['default'];
 			}
@@ -485,8 +485,8 @@ abstract class Kohana_Mango implements Mango_Interface {
 				}
 
 				// don't update value if the value did not change
-				$same_clean  = isset($this->_clean[$name]) && $this->_clean[$name] === Mango::normalize($value);
-				$same_object = ! $same_clean && isset($this->_object[$name]) && Mango::normalize($this->_object[$name]) === Mango::normalize($value);
+				$same_clean  = isset($this->_clean[$name]) AND $this->_clean[$name] === Mango::normalize($value);
+				$same_object = ! $same_clean AND isset($this->_object[$name]) AND Mango::normalize($this->_object[$name]) === Mango::normalize($value);
 
 				if ( $same_clean || $same_object)
 				{
@@ -506,7 +506,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			// mark change
 			$this->_changed[$name] = TRUE;
 		}
-		elseif ( isset($this->_relations[$name]) && in_array($this->_relations[$name]['type'], array('belongs_to', 'has_one')))
+		elseif ( isset($this->_relations[$name]) AND in_array($this->_relations[$name]['type'], array('belongs_to', 'has_one')))
 		{
 			if ( $this->_relations[$name]['type'] === 'belongs_to')
 			{
@@ -577,11 +577,11 @@ abstract class Kohana_Mango implements Mango_Interface {
 
 		foreach ( $this->_fields as $name => & $field)
 		{
-			if ( $field['type'] === 'has_one' && ! isset($field['model']))
+			if ( $field['type'] === 'has_one' AND ! isset($field['model']))
 			{
 				$field['model'] = $name;
 			}
-			elseif ( $field['type'] === 'has_many' && ! isset($field['model']))
+			elseif ( $field['type'] === 'has_many' AND ! isset($field['model']))
 			{
 				$field['model'] = Inflector::singular($name);
 			}
@@ -687,7 +687,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 		{
 			foreach ($values as $field => $value)
 			{
-				if ( isset($this->_fields[$field]) || ( isset($this->_relations[$field]) && $this->_relations[$field]['type'] === 'belongs_to'))
+				if ( isset($this->_fields[$field]) || ( isset($this->_relations[$field]) AND $this->_relations[$field]['type'] === 'belongs_to'))
 				{
 					// Set the field using __set()
 					$this->$field = $value;
@@ -712,13 +712,13 @@ abstract class Kohana_Mango implements Mango_Interface {
 		{
 			if ( $this->__isset($field_name))
 			{
-				if ( $clean && Arr::get($field_data,'local') === TRUE)
+				if ( $clean AND Arr::get($field_data,'local') === TRUE)
 				{
 					// local fields are not stored in database
 					continue;
 				}
 
-				if ( $clean && isset($this->_clean[$field_name]))
+				if ( $clean AND isset($this->_clean[$field_name]))
 				{
 					// use 'clean' value
 					$array[ $field_name ] = $this->_clean[$field_name];
@@ -730,7 +730,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 						? $this->_object[$field_name]
 						: $this->__get($field_name);
 
-					if ( ! $clean && Arr::get($field_data, 'xss_clean') && is_string($value))
+					if ( ! $clean AND Arr::get($field_data, 'xss_clean') AND is_string($value))
 					{
 						// undo htmlspecialchars encoding done by HTML purifier
 						$value = htmlspecialchars_decode($value);
@@ -739,7 +739,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 					$array[ $field_name ] = Mango::normalize( $value, $clean );
 				}
 			}
-			else if ( ! $clean && isset($field_data['default']))
+			else if ( ! $clean AND isset($field_data['default']))
 			{
 				// use default value
 				$array[ $field_name ] = $field_data['default'];
@@ -758,7 +758,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 	 */
 	public function loaded()
 	{
-		return $this->_embedded || (isset($this->_id) && !isset($this->_changed['_id']));
+		return $this->_embedded || (isset($this->_id) AND !isset($this->_changed['_id']));
 	}
 
 	/**
@@ -774,7 +774,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 
 		foreach ( $this->_fields as $name => $field)
 		{
-			if (isset($field['local']) && $field['local'] === TRUE)
+			if (isset($field['local']) AND $field['local'] === TRUE)
 			{
 				// local variables are not stored in DB
 				continue;
@@ -918,7 +918,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 		// resets $this->_changed array
 		$this->clear();
 
-		if ( $limit === 1 && $sort === NULL && $skip === NULL)
+		if ( $limit === 1 AND $sort === NULL AND $skip === NULL)
 		{
 			// prevent loading of a document without any search criteria
 			$values = (empty($criteria)) ? NULL : $this->db()->find_one($this->_collection,$criteria,$fields);
@@ -1128,11 +1128,11 @@ abstract class Kohana_Mango implements Mango_Interface {
 		// call pre_filter() on embedded objects
 		foreach ( $this->_fields as $field_name => $field_data)
 		{
-			if ( $field_data['type'] === 'has_one' && $this->__isset($field_name))
+			if ( $field_data['type'] === 'has_one' AND $this->__isset($field_name))
 			{
 				$this->__get($field_name)->pre_filter();
 			}
-			else if ( $field_data['type'] === 'has_many' && $this->__isset($field_name))
+			else if ( $field_data['type'] === 'has_many' AND $this->__isset($field_name))
 			{
 				foreach ( $this->__get($field_name) as $f)
 				{
@@ -1206,7 +1206,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			// validate embedded documents
 			foreach ( $this->_fields as $field_name => $field_data)
 			{
-				if ( $this->__isset($field_name) && in_array($field_data['type'], array('has_one','has_many')))
+				if ( $this->__isset($field_name) AND in_array($field_data['type'], array('has_one','has_many')))
 				{
 					if ( $field_data['type'] === 'has_one')
 					{
@@ -1301,41 +1301,43 @@ abstract class Kohana_Mango implements Mango_Interface {
 			$value = $this->run_filters($name, $value);
 
 			// Empty string
-			if ( is_string($value) && $value === '')
+			if (is_string($value) AND $value === '')
 			{
 				$value = NULL;
 			}
 		}
 
-		if ( $value !== NULL || $clean === TRUE)
+		if ($value !== NULL || $clean === TRUE)
 		{
 			switch ( $field['type'])
 			{
 				case 'MongoId':
-					if ( $value !== NULL AND ! $value instanceof MongoId)
+					if ($value !== NULL AND ! $value instanceof MongoId)
 					{
 						$value = new MongoId($value);
 					}
 				break;
+
 				case 'date':
 					if ( ! $value instanceof MongoDate)
 					{
 						$value = new MongoDate( is_int($value) ? $value : strtotime($value));
 					}
 				break;
+
 				case 'enum':
 					$value = in_array($value, $field['values']) ? $value : NULL;
-					/*
-					if ( $clean)
+
+					if ($clean)
 					{
 						$value = isset($field['values'][$value]) ? $value : NULL;
 					}
 					else
 					{
-						$value = ($key = array_search($value,$field['values'])) !== FALSE ? $key : NULL;
+						$value = ($key = array_search($value, $field['values'])) !== FALSE ? $key : NULL;
 					}
-					*/
 				break;
+
 				case 'int':
 					if ((float) $value > PHP_INT_MAX)
 					{
@@ -1347,9 +1349,11 @@ abstract class Kohana_Mango implements Mango_Interface {
 						$value = (int) $value;
 					}
 				break;
+
 				case 'float':
 					$value = (float) $value;
 				break;
+
 				case 'timestamp':
 					if ( ! is_int($value))
 					{
@@ -1358,19 +1362,22 @@ abstract class Kohana_Mango implements Mango_Interface {
 							: strtotime($value);
 					}
 				break;
+
 				case 'boolean':
 					$value = (bool) $value;
 				break;
+
 				case 'email':
 					if ( ! $clean)
 					{
 						$value = strtolower(trim((string) $value));
 					}
 				break;
+
 				case 'string':
 					$value = trim((string) $value);
 
-					if ( ! $clean && strlen($value))
+					if ( ! $clean AND strlen($value))
 					{
 						$max_size = Arr::get($field, 'max_size', Mango::MAX_SIZE_STRING);
 
@@ -1379,12 +1386,13 @@ abstract class Kohana_Mango implements Mango_Interface {
 							$value = UTF8::substr($value, 0, $max_size);
 						}
 
-						if ( Arr::get($field, 'xss_clean') && ! empty($value))
+						if ( Arr::get($field, 'xss_clean') AND ! empty($value))
 						{
 							$value = Security::xss_clean($value);
 						}
 					}
 				break;
+
 				case 'has_one':
 					if ( is_array($value))
 					{
@@ -1400,6 +1408,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 						$value->set_parent($this);
 					}
 				break;
+
 				case 'has_many':
 					$value = new Mango_Set($value, $field['model'], Arr::get($field, 'duplicates', FALSE), $clean);
 
@@ -1408,15 +1417,19 @@ abstract class Kohana_Mango implements Mango_Interface {
 						$model->set_parent($this);
 					}
 				break;
+
 				case 'counter':
 					$value = new Mango_Counter($value);
 				break;
+
 				case 'array':
 					$value = new Mango_Array($value, Arr::get($field, 'type_hint'), $clean);
 				break;
+
 				case 'set':
 					$value = new Mango_Set($value, Arr::get($field, 'type_hint'), Arr::get($field, 'duplicates', TRUE), $clean);
 				break;
+
 				case 'mixed':
 					$value = ! is_object($value)
 						? $value
@@ -1424,7 +1437,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 				break;
 			}
 
-			if ( ! $clean && is_string($value) && $value === '')
+			if ( ! $clean AND is_string($value) AND $value === '')
 			{
 				$value = NULL;
 			}
@@ -1584,13 +1597,13 @@ abstract class Kohana_Mango implements Mango_Interface {
 	 */
 	public function has_in_relation(Mango $model, $relation)
 	{
-		if ( isset($this->_relations[$relation]) && $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
+		if ( isset($this->_relations[$relation]) AND $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
 		{
 			// related HABTM
 			$field = $relation . '_ids';
 			$value = $model->_id;
 		}
-		elseif ( isset($this->_fields[$relation]) && $this->_fields[$relation]['type'] === 'has_many' )
+		elseif ( isset($this->_fields[$relation]) AND $this->_fields[$relation]['type'] === 'has_many' )
 		{
 			// embedded Has Many
 			$field = $relation;
@@ -1624,7 +1637,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			return TRUE;
 		}
 
-		if ( isset($this->_relations[$relation]) && $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
+		if ( isset($this->_relations[$relation]) AND $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
 		{
 			// related HABTM
 			if ( ! $model->loaded() || ! $this->loaded() )
@@ -1652,7 +1665,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			// model has been added or was already added
 			return TRUE;
 		}
-		elseif ( isset($this->_fields[$relation]) && $this->_fields[$relation]['type'] === 'has_many' )
+		elseif ( isset($this->_fields[$relation]) AND $this->_fields[$relation]['type'] === 'has_many' )
 		{
 			return $this->__get($relation)->push($model);
 		}
@@ -1681,7 +1694,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			return TRUE;
 		}
 
-		if ( isset($this->_relations[$relation]) && $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
+		if ( isset($this->_relations[$relation]) AND $this->_relations[$relation]['type'] === 'has_and_belongs_to_many')
 		{
 			// related HABTM
 			if ( ! $model->loaded() || ! $this->loaded())
@@ -1709,7 +1722,7 @@ abstract class Kohana_Mango implements Mango_Interface {
 			// model has been removed or was already removed
 			return TRUE;
 		}
-		elseif ( isset($this->_fields[$relation]) && $this->_fields[$relation]['type'] === 'has_many' )
+		elseif ( isset($this->_fields[$relation]) AND $this->_fields[$relation]['type'] === 'has_many' )
 		{
 			// embedded Has_Many
 			return $this->__get($relation)->pull($model);
