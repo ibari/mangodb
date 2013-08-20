@@ -73,6 +73,20 @@ class Kohana_MangoDB {
 		$server  = $this->_config['connection']['hostnames'];
 		$options = Arr::get($this->_config['connection'], 'options', array());
 
+		// BUGFIX: timeout deprecated & changed to connectTimeoutMS
+		if (isset($options['timeout']) AND version_compare(MongoClient::VERSION, '1.3.4') >= 0)
+		{
+			$options['connectTimeoutMS'] = $options['timeout'];
+			unset($options['timeout']);
+		}
+
+		// BUGFIX: wTimeout deprecated & changed to wTimeoutMS
+		if (isset($options['wTimeout']) AND version_compare(MongoClient::VERSION, '1.4.0') >= 0)
+		{
+			$options['wTimeoutMS'] = $options['wTimeout'];
+			unset($options['wTimeout']);
+		}
+
 		if ( strpos($server, 'mongodb://') !== 0)
 		{
 			// Add 'mongodb://'
