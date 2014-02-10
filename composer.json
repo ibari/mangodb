@@ -1,0 +1,19 @@
+{
+    "name": "camry/mangodb",
+    "type": "kohana-module",
+    "license": "MIT",
+    "description": "MongoDB for Kohana 3.3",
+    "keywords": [
+        "kohana", "mongodb", "mangodb"
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/camry/mangodb"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "composer/installers": "*"
+    }
+}
